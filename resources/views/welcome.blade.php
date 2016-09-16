@@ -39,6 +39,7 @@
         <div class="container">
             <div class="content">
                 <div class="title">FinServ</div>
+                <a href="{{url('/customers')}}" class="btn btn-success">Let's begin</a>
             </div>
         </div>
     </body>
