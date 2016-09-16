@@ -16,8 +16,8 @@
         {!! Form::text('description',null,['class'=>'form-control']) !!}
     </div>
     <div class="form-group">
-        {!! Form::label('acquired_price', 'Acquired Price:') !!}
-        {!! Form::text('acquired_price',null,['class'=>'form-control']) !!}
+        {!! Form::label('acquired_value', 'Acquired Value:') !!}
+        {!! Form::text('acquired_value',null,['class'=>'form-control']) !!}
     </div>
     <div class="form-group">
         {!! Form::label('acquired_date', 'Acquired date:') !!}
