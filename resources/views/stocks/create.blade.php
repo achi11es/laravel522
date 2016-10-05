@@ -10,6 +10,7 @@
     <div class="form-group">
         {!! Form::label('symbol', 'Symbol:') !!}
         {!! Form::text('symbol',null,['class'=>'form-control']) !!}
+
     </div>
     <div class="form-group">
         {!! Form::label('name', 'Stock Name:') !!}

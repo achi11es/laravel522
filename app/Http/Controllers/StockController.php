@@ -11,9 +11,29 @@ class StockController extends Controller
 {
     public function index()
     {
-        //
+
         $stocks=Stock::all();
-        return view('stocks.index',compact('stocks'));
+        $stockval = Array();
+        foreach($stocks as $stock) {
+
+
+            $url = ('http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A' . $stock->symbol);
+
+            $file = fopen("$url", "r");
+            $r = "";
+            do {
+                $data = fread($file, 500);
+                $r .= $data;
+            } while (strlen($data) != 0);
+
+            $json = str_replace("\n", "", $r);
+            $data = substr($json, 4, strlen($json) - 5);
+            $json_output = json_decode($data, true);
+            //dd($json_output);
+            array_push($stockval, $json_output['l']);
+
+        }
+        return view('stocks.index',compact('stocks','stockval'));
     }
 
     public function show($id)
@@ -31,6 +51,16 @@ class StockController extends Controller
         $customers = Customer::lists('name','id');
         return view('stocks.create', compact('customers'));
     }
+
+   /*public function currentValue($stock)
+    {
+        $url = ('http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A'.$stock->symbol);
+        $json = file_get_contents($url);
+        $data = json_decode($json,true);
+        $stockval = $data['l_curr'];
+        return view('stocks.index',compact('stockval'));
+
+    } */
 
     /**
      * Store a newly created resource in storage.

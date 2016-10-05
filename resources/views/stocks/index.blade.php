@@ -14,21 +14,27 @@
             <th>Shares</th>
             <th>Purchase price</th>
             <th>Purchase Date</th>
+            <th>Current Price</th>
             <th colspan="3">Actions</th>
         </tr>
         </thead>
         <tbody>
+        <?php
+        $i = 0;
+        ?>
         @foreach ($stocks as $stock)
             <tr>
                 <td>{{ $stock->customer->cust_number }}</td>
                 <td>{{ $stock->customer->name }}</td>
                 <td>{{ $stock->symbol }}</td>
-                <td>{{ $stock->name }}</td>
+                <td><a href="http://money.cnn.com/quote/quote.html?symb=<?php echo $stock->symbol; ?>">{{ $stock->name }}</a></td>
                 <td>{{ $stock->shares }}</td>
                 <td>{{ $stock->purchase_price }}</td>
                 <td>{{ $stock->purchased }}</td>
+                <td>{{$stockval[$i++]}}</td>
+
                 <td><a href="{{url('stocks',$stock->id)}}" class="btn btn-primary">Read</a></td>
-                <td><a href="{{route('stocks.edit',$stock->id)}}" class="btn btn-warning">Update</a></td>
+                <td><a href="{{route('stocks.edit',$stock->id)}}" class="btn btn-primary">Update</a></td>
                 <td>
                     {!! Form::open(['method' => 'DELETE', 'route'=>['stocks.destroy', $stock->id]]) !!}
                     {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}

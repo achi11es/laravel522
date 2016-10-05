@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 //use App\Http\Requests;
 use App\Customer;
+use App\Stock;
 
 class CustomerController extends Controller
 {
@@ -19,7 +21,28 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = Customer::findOrFail($id);
-        return view('customers.show',compact('customer'));
+        $stocks=Stock::all();
+        $stockval = Array();
+        foreach($stocks as $stock) {
+
+
+            $url = ('http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A' . $stock->symbol);
+
+            $file = fopen("$url", "r");
+            $r = "";
+            do {
+                $data = fread($file, 500);
+                $r .= $data;
+            } while (strlen($data) != 0);
+
+            $json = str_replace("\n", "", $r);
+            $data = substr($json, 4, strlen($json) - 5);
+            $json_output = json_decode($data, true);
+            //dd($json_output);
+                array_push($stockval, $json_output['l']);
+        }
+
+        return view('customers.show',compact('customer','stockval'));
     }
 
 
